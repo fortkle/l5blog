@@ -2,6 +2,16 @@
 
 @section('content')
 <h2 class="page-header">記事詳細</h2>
+<ul class="list-inline">
+    <li>
+        <a href="/articles/edit/{{{ $article->id }}}" class="btn btn-primary pull-left">編集</a>
+    </li>
+    <li>
+        {!! Form::open(['action' => ['ArticlesController@postDelete', $article->id]]) !!}
+        <button type="submit" class="btn btn-danger pull-left">削除</button>
+        {!! Form::close() !!}
+    </li>
+</ul>
 <table class="table table-striped table-hover">
     <tbody>
         <tr>

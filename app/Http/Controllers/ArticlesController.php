@@ -46,28 +46,72 @@ class ArticlesController extends Controller {
         return view('articles.show', compact('article'));
     }
 
+    /**
+     * 記事の投稿
+     *
+     * @return \Illuminate\View\View
+     */
     public function getCreate()
     {
-
+        return view('articles.create');
     }
 
-    public function postCreate()
+    /**
+     * 記事の投稿
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postCreate(Request $request)
     {
+        $data = $request->all();
+        $this->article->fill($data);
+        $this->article->save();
 
+        return redirect()->to('articles/index');
     }
 
-    public function getEdit()
+    /**
+     * 記事の編集
+     *
+     * @param $id
+     * @return \Illuminate\View\View
+     */
+    public function getEdit($id)
     {
+        $article = $this->article->find($id);
 
+        return view('articles.edit')->withArticle($article);
     }
 
-    public function postEdit()
+    /**
+     * 記事の編集
+     *
+     * @param Request $request
+     * @param         $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postEdit(Request $request, $id)
     {
+        $article = $this->article->find($id);
+        $data = $request->all();
+        $article->fill($data);
+        $article->save();
 
+        return redirect()->to('articles/index');
     }
 
-    public function postDelete()
+    /**
+     * 記事の削除
+     *
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postDelete($id)
     {
+        $article = $this->article->find($id);
+        $article->delete();
 
+        return redirect()->to('articles/index');
     }
 }
